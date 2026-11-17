@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 17, 2026 at 10:28 AM
+-- Generation Time: Nov 17, 2026 at 12:11 PM
 -- Server version: 10.11.14-MariaDB-0ubuntu0.24.04.1
 -- PHP Version: 8.3.6
 
@@ -24,10 +24,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Tabel barang_keluar`
+-- Table structure for table `barang_keluar`
 --
 
-CREATE TABLE `Tabel barang_keluar` (
+CREATE TABLE `barang_keluar` (
   `id_barang_keluar` int(11) NOT NULL,
   `id_pengguna` int(11) NOT NULL,
   `id_gudang` int(11) NOT NULL,
@@ -40,10 +40,10 @@ CREATE TABLE `Tabel barang_keluar` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Tabel barang_masuk`
+-- Table structure for table `barang_masuk`
 --
 
-CREATE TABLE `Tabel barang_masuk` (
+CREATE TABLE `barang_masuk` (
   `id_barang_masuk` int(11) NOT NULL,
   `id_pemasok` int(11) NOT NULL,
   `id_pengguna` int(11) NOT NULL,
@@ -55,10 +55,10 @@ CREATE TABLE `Tabel barang_masuk` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Tabel detail_barang_keluar`
+-- Table structure for table `detail_barang_keluar`
 --
 
-CREATE TABLE `Tabel detail_barang_keluar` (
+CREATE TABLE `detail_barang_keluar` (
   `id_detail_keluar` int(11) NOT NULL,
   `id_barang_keluar` int(11) NOT NULL,
   `id_produk` int(11) NOT NULL,
@@ -68,11 +68,11 @@ CREATE TABLE `Tabel detail_barang_keluar` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Tabel detail_barang_masuk`
+-- Table structure for table `detail_barang_masuk`
 --
 
-CREATE TABLE `Tabel detail_barang_masuk` (
-  `id_detail_produk` int(11) NOT NULL,
+CREATE TABLE `detail_barang_masuk` (
+  `id_detail_masuk` int(11) NOT NULL,
   `id_barang_masuk` int(11) NOT NULL,
   `id_produk` int(11) NOT NULL,
   `jumlah` int(11) NOT NULL,
@@ -82,10 +82,10 @@ CREATE TABLE `Tabel detail_barang_masuk` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Tabel detail_stok_opname`
+-- Table structure for table `detail_stok_opname`
 --
 
-CREATE TABLE `Tabel detail_stok_opname` (
+CREATE TABLE `detail_stok_opname` (
   `id_detail_opname` int(11) NOT NULL,
   `id_opname` int(11) NOT NULL,
   `id_produk` int(11) NOT NULL,
@@ -97,10 +97,10 @@ CREATE TABLE `Tabel detail_stok_opname` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Tabel detail_transfer`
+-- Table structure for table `detail_transfer`
 --
 
-CREATE TABLE `Tabel detail_transfer` (
+CREATE TABLE `detail_transfer` (
   `id_detail_transfer` int(11) NOT NULL,
   `id_transfer` int(11) NOT NULL,
   `id_produk` int(11) NOT NULL,
@@ -110,10 +110,10 @@ CREATE TABLE `Tabel detail_transfer` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Tabel gudang`
+-- Table structure for table `gudang`
 --
 
-CREATE TABLE `Tabel gudang` (
+CREATE TABLE `gudang` (
   `id_gudang` int(11) NOT NULL,
   `nama_gudang` varchar(100) NOT NULL,
   `alamat` text NOT NULL,
@@ -123,10 +123,10 @@ CREATE TABLE `Tabel gudang` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Tabel kategori`
+-- Table structure for table `kategori`
 --
 
-CREATE TABLE `Tabel kategori` (
+CREATE TABLE `kategori` (
   `id_kategori` int(11) NOT NULL,
   `nama_kategori` varchar(100) NOT NULL,
   `deskripsi` text NOT NULL
@@ -135,10 +135,10 @@ CREATE TABLE `Tabel kategori` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Tabel pemasok`
+-- Table structure for table `pemasok`
 --
 
-CREATE TABLE `Tabel pemasok` (
+CREATE TABLE `pemasok` (
   `id_pemasok` int(11) NOT NULL,
   `nama_pemasok` varchar(100) NOT NULL,
   `nomor_telepon` varchar(20) NOT NULL,
@@ -149,10 +149,10 @@ CREATE TABLE `Tabel pemasok` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Tabel pengguna`
+-- Table structure for table `pengguna`
 --
 
-CREATE TABLE `Tabel pengguna` (
+CREATE TABLE `pengguna` (
   `id_pengguna` int(11) NOT NULL,
   `nama` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
@@ -165,10 +165,10 @@ CREATE TABLE `Tabel pengguna` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Tabel produk`
+-- Table structure for table `produk`
 --
 
-CREATE TABLE `Tabel produk` (
+CREATE TABLE `produk` (
   `id_produk` int(11) NOT NULL,
   `id_kategori` int(11) NOT NULL,
   `id_satuan` int(11) NOT NULL,
@@ -186,10 +186,10 @@ CREATE TABLE `Tabel produk` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Tabel satuan`
+-- Table structure for table `satuan`
 --
 
-CREATE TABLE `Tabel satuan` (
+CREATE TABLE `satuan` (
   `id_satuan` int(11) NOT NULL,
   `nama_satuan` varchar(50) NOT NULL,
   `singkatan` varchar(20) NOT NULL
@@ -198,10 +198,10 @@ CREATE TABLE `Tabel satuan` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Tabel stok`
+-- Table structure for table `stok`
 --
 
-CREATE TABLE `Tabel stok` (
+CREATE TABLE `stok` (
   `id_stok` int(11) NOT NULL,
   `id_produk` int(11) NOT NULL,
   `id_gudang` int(11) NOT NULL,
@@ -211,10 +211,10 @@ CREATE TABLE `Tabel stok` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Tabel stok_opname`
+-- Table structure for table `stok_opname`
 --
 
-CREATE TABLE `Tabel stok_opname` (
+CREATE TABLE `stok_opname` (
   `id_opname` int(11) NOT NULL,
   `id_gudang` int(11) NOT NULL,
   `id_pengguna` int(11) NOT NULL,
@@ -225,10 +225,10 @@ CREATE TABLE `Tabel stok_opname` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Tabel transfer_gudang`
+-- Table structure for table `transfer_gudang`
 --
 
-CREATE TABLE `Tabel transfer_gudang` (
+CREATE TABLE `transfer_gudang` (
   `id_transfer` int(11) NOT NULL,
   `id_gudang_asal` int(11) NOT NULL,
   `id_gudang_tujuan` int(11) NOT NULL,
@@ -239,116 +239,138 @@ CREATE TABLE `Tabel transfer_gudang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Triggers `transfer_gudang`
+--
+DELIMITER $$
+CREATE TRIGGER `cek_transfer_gudang_insert` BEFORE INSERT ON `transfer_gudang` FOR EACH ROW BEGIN
+    IF NEW.id_gudang_asal = NEW.id_gudang_tujuan THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Gudang asal dan tujuan tidak boleh sama!'$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `cek_transfer_gudang_update` BEFORE UPDATE ON `transfer_gudang` FOR EACH ROW BEGIN
+    IF NEW.id_gudang_asal = NEW.id_gudang_tujuan THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Gudang asal dan tujuan tidak boleh sama!'$$
+DELIMITER ;
+
+--
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `Tabel barang_keluar`
+-- Indexes for table `barang_keluar`
 --
-ALTER TABLE `Tabel barang_keluar`
+ALTER TABLE `barang_keluar`
   ADD PRIMARY KEY (`id_barang_keluar`),
   ADD KEY `idx_pengguna` (`id_pengguna`),
   ADD KEY `idx_gudang` (`id_gudang`);
 
 --
--- Indexes for table `Tabel barang_masuk`
+-- Indexes for table `barang_masuk`
 --
-ALTER TABLE `Tabel barang_masuk`
+ALTER TABLE `barang_masuk`
   ADD PRIMARY KEY (`id_barang_masuk`),
   ADD KEY `idx_pemasok` (`id_pemasok`),
   ADD KEY `idx_pengguna` (`id_pengguna`),
   ADD KEY `idx_gudang` (`id_gudang`);
 
 --
--- Indexes for table `Tabel detail_barang_keluar`
+-- Indexes for table `detail_barang_keluar`
 --
-ALTER TABLE `Tabel detail_barang_keluar`
+ALTER TABLE `detail_barang_keluar`
   ADD PRIMARY KEY (`id_detail_keluar`),
   ADD KEY `idx_barang_keluar` (`id_barang_keluar`),
   ADD KEY `idx_produk` (`id_produk`);
 
 --
--- Indexes for table `Tabel detail_barang_masuk`
+-- Indexes for table `detail_barang_masuk`
 --
-ALTER TABLE `Tabel detail_barang_masuk`
-  ADD PRIMARY KEY (`id_detail_produk`),
+ALTER TABLE `detail_barang_masuk`
+  ADD PRIMARY KEY (`id_detail_masuk`),
   ADD KEY `idx_barang_masuk` (`id_barang_masuk`),
   ADD KEY `idx_produk` (`id_produk`);
 
 --
--- Indexes for table `Tabel detail_stok_opname`
+-- Indexes for table `detail_stok_opname`
 --
-ALTER TABLE `Tabel detail_stok_opname`
+ALTER TABLE `detail_stok_opname`
   ADD PRIMARY KEY (`id_detail_opname`),
   ADD KEY `idx_opname` (`id_opname`),
   ADD KEY `idx_produk` (`id_produk`);
 
 --
--- Indexes for table `Tabel detail_transfer`
+-- Indexes for table `detail_transfer`
 --
-ALTER TABLE `Tabel detail_transfer`
+ALTER TABLE `detail_transfer`
   ADD PRIMARY KEY (`id_detail_transfer`),
   ADD KEY `idx_transfer` (`id_transfer`),
   ADD KEY `idx_produk` (`id_produk`);
 
 --
--- Indexes for table `Tabel gudang`
+-- Indexes for table `gudang`
 --
-ALTER TABLE `Tabel gudang`
-  ADD PRIMARY KEY (`id_gudang`);
+ALTER TABLE `gudang`
+  ADD PRIMARY KEY (`id_gudang`),
+  ADD UNIQUE KEY `unik_nama_gudang` (`nama_gudang`);
 
 --
--- Indexes for table `Tabel kategori`
+-- Indexes for table `kategori`
 --
-ALTER TABLE `Tabel kategori`
-  ADD PRIMARY KEY (`id_kategori`);
+ALTER TABLE `kategori`
+  ADD PRIMARY KEY (`id_kategori`),
+  ADD UNIQUE KEY `unik_nama_kategori` (`nama_kategori`);
 
 --
--- Indexes for table `Tabel pemasok`
+-- Indexes for table `pemasok`
 --
-ALTER TABLE `Tabel pemasok`
+ALTER TABLE `pemasok`
   ADD PRIMARY KEY (`id_pemasok`);
 
 --
--- Indexes for table `Tabel pengguna`
+-- Indexes for table `pengguna`
 --
-ALTER TABLE `Tabel pengguna`
-  ADD PRIMARY KEY (`id_pengguna`);
+ALTER TABLE `pengguna`
+  ADD PRIMARY KEY (`id_pengguna`),
+  ADD UNIQUE KEY `unik_email` (`email`);
 
 --
--- Indexes for table `Tabel produk`
+-- Indexes for table `produk`
 --
-ALTER TABLE `Tabel produk`
+ALTER TABLE `produk`
   ADD PRIMARY KEY (`id_produk`),
+  ADD UNIQUE KEY `unik_kode_produk` (`kode_produk`),
   ADD KEY `fk_produk_kategori` (`id_kategori`),
   ADD KEY `fk_produk_satuan` (`id_satuan`);
 
 --
--- Indexes for table `Tabel satuan`
+-- Indexes for table `satuan`
 --
-ALTER TABLE `Tabel satuan`
-  ADD PRIMARY KEY (`id_satuan`);
+ALTER TABLE `satuan`
+  ADD PRIMARY KEY (`id_satuan`),
+  ADD UNIQUE KEY `unik_nama_satuan` (`nama_satuan`),
+  ADD UNIQUE KEY `unik_singkatan` (`singkatan`);
 
 --
--- Indexes for table `Tabel stok`
+-- Indexes for table `stok`
 --
-ALTER TABLE `Tabel stok`
+ALTER TABLE `stok`
   ADD PRIMARY KEY (`id_stok`),
-  ADD KEY `fk_stok_produk` (`id_produk`),
+  ADD UNIQUE KEY `unik_produk_gudang` (`id_produk`,`id_gudang`),
   ADD KEY `fk_stok_gudang` (`id_gudang`);
 
 --
--- Indexes for table `Tabel stok_opname`
+-- Indexes for table `stok_opname`
 --
-ALTER TABLE `Tabel stok_opname`
+ALTER TABLE `stok_opname`
   ADD PRIMARY KEY (`id_opname`),
   ADD KEY `idx_gudang` (`id_gudang`),
   ADD KEY `idx_pengguna` (`id_pengguna`);
 
 --
--- Indexes for table `Tabel transfer_gudang`
+-- Indexes for table `transfer_gudang`
 --
-ALTER TABLE `Tabel transfer_gudang`
+ALTER TABLE `transfer_gudang`
   ADD PRIMARY KEY (`id_transfer`),
   ADD KEY `idx_gudang_asal` (`id_gudang_asal`),
   ADD KEY `idx_gudang_tujuan` (`id_gudang_tujuan`),
@@ -359,93 +381,93 @@ ALTER TABLE `Tabel transfer_gudang`
 --
 
 --
--- AUTO_INCREMENT for table `Tabel barang_keluar`
+-- AUTO_INCREMENT for table `barang_keluar`
 --
-ALTER TABLE `Tabel barang_keluar`
+ALTER TABLE `barang_keluar`
   MODIFY `id_barang_keluar` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Tabel barang_masuk`
+-- AUTO_INCREMENT for table `barang_masuk`
 --
-ALTER TABLE `Tabel barang_masuk`
+ALTER TABLE `barang_masuk`
   MODIFY `id_barang_masuk` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Tabel detail_barang_keluar`
+-- AUTO_INCREMENT for table `detail_barang_keluar`
 --
-ALTER TABLE `Tabel detail_barang_keluar`
+ALTER TABLE `detail_barang_keluar`
   MODIFY `id_detail_keluar` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Tabel detail_barang_masuk`
+-- AUTO_INCREMENT for table `detail_barang_masuk`
 --
-ALTER TABLE `Tabel detail_barang_masuk`
-  MODIFY `id_detail_produk` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `detail_barang_masuk`
+  MODIFY `id_detail_masuk` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Tabel detail_stok_opname`
+-- AUTO_INCREMENT for table `detail_stok_opname`
 --
-ALTER TABLE `Tabel detail_stok_opname`
+ALTER TABLE `detail_stok_opname`
   MODIFY `id_detail_opname` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Tabel detail_transfer`
+-- AUTO_INCREMENT for table `detail_transfer`
 --
-ALTER TABLE `Tabel detail_transfer`
+ALTER TABLE `detail_transfer`
   MODIFY `id_detail_transfer` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Tabel gudang`
+-- AUTO_INCREMENT for table `gudang`
 --
-ALTER TABLE `Tabel gudang`
+ALTER TABLE `gudang`
   MODIFY `id_gudang` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Tabel kategori`
+-- AUTO_INCREMENT for table `kategori`
 --
-ALTER TABLE `Tabel kategori`
+ALTER TABLE `kategori`
   MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Tabel pemasok`
+-- AUTO_INCREMENT for table `pemasok`
 --
-ALTER TABLE `Tabel pemasok`
+ALTER TABLE `pemasok`
   MODIFY `id_pemasok` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Tabel pengguna`
+-- AUTO_INCREMENT for table `pengguna`
 --
-ALTER TABLE `Tabel pengguna`
+ALTER TABLE `pengguna`
   MODIFY `id_pengguna` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Tabel produk`
+-- AUTO_INCREMENT for table `produk`
 --
-ALTER TABLE `Tabel produk`
+ALTER TABLE `produk`
   MODIFY `id_produk` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Tabel satuan`
+-- AUTO_INCREMENT for table `satuan`
 --
-ALTER TABLE `Tabel satuan`
+ALTER TABLE `satuan`
   MODIFY `id_satuan` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Tabel stok`
+-- AUTO_INCREMENT for table `stok`
 --
-ALTER TABLE `Tabel stok`
+ALTER TABLE `stok`
   MODIFY `id_stok` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Tabel stok_opname`
+-- AUTO_INCREMENT for table `stok_opname`
 --
-ALTER TABLE `Tabel stok_opname`
+ALTER TABLE `stok_opname`
   MODIFY `id_opname` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Tabel transfer_gudang`
+-- AUTO_INCREMENT for table `transfer_gudang`
 --
-ALTER TABLE `Tabel transfer_gudang`
+ALTER TABLE `transfer_gudang`
   MODIFY `id_transfer` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -453,76 +475,76 @@ ALTER TABLE `Tabel transfer_gudang`
 --
 
 --
--- Constraints for table `Tabel barang_keluar`
+-- Constraints for table `barang_keluar`
 --
-ALTER TABLE `Tabel barang_keluar`
-  ADD CONSTRAINT `fk_barang_keluar_gudang` FOREIGN KEY (`id_gudang`) REFERENCES `Tabel gudang` (`id_gudang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_barang_keluar_pengguna` FOREIGN KEY (`id_pengguna`) REFERENCES `Tabel pengguna` (`id_pengguna`) ON UPDATE CASCADE;
+ALTER TABLE `barang_keluar`
+  ADD CONSTRAINT `fk_barang_keluar_gudang` FOREIGN KEY (`id_gudang`) REFERENCES `gudang` (`id_gudang`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_barang_keluar_pengguna` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id_pengguna`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `Tabel barang_masuk`
+-- Constraints for table `barang_masuk`
 --
-ALTER TABLE `Tabel barang_masuk`
-  ADD CONSTRAINT `fk_barang_masuk_gudang` FOREIGN KEY (`id_gudang`) REFERENCES `Tabel gudang` (`id_gudang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_barang_masuk_pemasok` FOREIGN KEY (`id_pemasok`) REFERENCES `Tabel pemasok` (`id_pemasok`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_barang_masuk_pengguna` FOREIGN KEY (`id_pengguna`) REFERENCES `Tabel pengguna` (`id_pengguna`) ON UPDATE CASCADE;
+ALTER TABLE `barang_masuk`
+  ADD CONSTRAINT `fk_barang_masuk_gudang` FOREIGN KEY (`id_gudang`) REFERENCES `gudang` (`id_gudang`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_barang_masuk_pemasok` FOREIGN KEY (`id_pemasok`) REFERENCES `pemasok` (`id_pemasok`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_barang_masuk_pengguna` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id_pengguna`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `Tabel detail_barang_keluar`
+-- Constraints for table `detail_barang_keluar`
 --
-ALTER TABLE `Tabel detail_barang_keluar`
-  ADD CONSTRAINT `fk_detail_keluar_barang_keluar` FOREIGN KEY (`id_barang_keluar`) REFERENCES `Tabel barang_keluar` (`id_barang_keluar`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_detail_keluar_produk` FOREIGN KEY (`id_produk`) REFERENCES `Tabel produk` (`id_produk`) ON UPDATE CASCADE;
+ALTER TABLE `detail_barang_keluar`
+  ADD CONSTRAINT `fk_detail_keluar_barang_keluar` FOREIGN KEY (`id_barang_keluar`) REFERENCES `barang_keluar` (`id_barang_keluar`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_detail_keluar_produk` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `Tabel detail_barang_masuk`
+-- Constraints for table `detail_barang_masuk`
 --
-ALTER TABLE `Tabel detail_barang_masuk`
-  ADD CONSTRAINT `fk_detail_barang_masuk` FOREIGN KEY (`id_barang_masuk`) REFERENCES `Tabel barang_masuk` (`id_barang_masuk`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_detail_produk` FOREIGN KEY (`id_produk`) REFERENCES `Tabel produk` (`id_produk`) ON UPDATE CASCADE;
+ALTER TABLE `detail_barang_masuk`
+  ADD CONSTRAINT `fk_detail_barang_masuk` FOREIGN KEY (`id_barang_masuk`) REFERENCES `barang_masuk` (`id_barang_masuk`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_detail_produk` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `Tabel detail_stok_opname`
+-- Constraints for table `detail_stok_opname`
 --
-ALTER TABLE `Tabel detail_stok_opname`
-  ADD CONSTRAINT `fk_detail_opname_opname` FOREIGN KEY (`id_opname`) REFERENCES `Tabel stok_opname` (`id_opname`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_detail_opname_produk` FOREIGN KEY (`id_produk`) REFERENCES `Tabel produk` (`id_produk`) ON UPDATE CASCADE;
+ALTER TABLE `detail_stok_opname`
+  ADD CONSTRAINT `fk_detail_opname_opname` FOREIGN KEY (`id_opname`) REFERENCES `stok_opname` (`id_opname`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_detail_opname_produk` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `Tabel detail_transfer`
+-- Constraints for table `detail_transfer`
 --
-ALTER TABLE `Tabel detail_transfer`
-  ADD CONSTRAINT `fk_detail_transfer_produk` FOREIGN KEY (`id_produk`) REFERENCES `Tabel produk` (`id_produk`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_detail_transfer_transfer` FOREIGN KEY (`id_transfer`) REFERENCES `Tabel transfer_gudang` (`id_transfer`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `detail_transfer`
+  ADD CONSTRAINT `fk_detail_transfer_produk` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_detail_transfer_transfer` FOREIGN KEY (`id_transfer`) REFERENCES `transfer_gudang` (`id_transfer`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `Tabel produk`
+-- Constraints for table `produk`
 --
-ALTER TABLE `Tabel produk`
-  ADD CONSTRAINT `fk_produk_kategori` FOREIGN KEY (`id_kategori`) REFERENCES `Tabel kategori` (`id_kategori`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_produk_satuan` FOREIGN KEY (`id_satuan`) REFERENCES `Tabel satuan` (`id_satuan`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `produk`
+  ADD CONSTRAINT `fk_produk_kategori` FOREIGN KEY (`id_kategori`) REFERENCES `kategori` (`id_kategori`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_produk_satuan` FOREIGN KEY (`id_satuan`) REFERENCES `satuan` (`id_satuan`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `Tabel stok`
+-- Constraints for table `stok`
 --
-ALTER TABLE `Tabel stok`
-  ADD CONSTRAINT `fk_stok_gudang` FOREIGN KEY (`id_gudang`) REFERENCES `Tabel gudang` (`id_gudang`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_stok_produk` FOREIGN KEY (`id_produk`) REFERENCES `Tabel produk` (`id_produk`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `stok`
+  ADD CONSTRAINT `fk_stok_gudang` FOREIGN KEY (`id_gudang`) REFERENCES `gudang` (`id_gudang`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_stok_produk` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `Tabel stok_opname`
+-- Constraints for table `stok_opname`
 --
-ALTER TABLE `Tabel stok_opname`
-  ADD CONSTRAINT `fk_stok_opname_gudang` FOREIGN KEY (`id_gudang`) REFERENCES `Tabel gudang` (`id_gudang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_stok_opname_pengguna` FOREIGN KEY (`id_pengguna`) REFERENCES `Tabel pengguna` (`id_pengguna`) ON UPDATE CASCADE;
+ALTER TABLE `stok_opname`
+  ADD CONSTRAINT `fk_stok_opname_gudang` FOREIGN KEY (`id_gudang`) REFERENCES `gudang` (`id_gudang`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_stok_opname_pengguna` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id_pengguna`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `Tabel transfer_gudang`
+-- Constraints for table `transfer_gudang`
 --
-ALTER TABLE `Tabel transfer_gudang`
-  ADD CONSTRAINT `fk_transfer_gudang_asal` FOREIGN KEY (`id_gudang_asal`) REFERENCES `Tabel gudang` (`id_gudang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_transfer_gudang_tujuan` FOREIGN KEY (`id_gudang_tujuan`) REFERENCES `Tabel gudang` (`id_gudang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_transfer_pengguna` FOREIGN KEY (`id_pengguna`) REFERENCES `Tabel pengguna` (`id_pengguna`) ON UPDATE CASCADE;
+ALTER TABLE `transfer_gudang`
+  ADD CONSTRAINT `fk_transfer_gudang_asal` FOREIGN KEY (`id_gudang_asal`) REFERENCES `gudang` (`id_gudang`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_transfer_gudang_tujuan` FOREIGN KEY (`id_gudang_tujuan`) REFERENCES `gudang` (`id_gudang`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_transfer_pengguna` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id_pengguna`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

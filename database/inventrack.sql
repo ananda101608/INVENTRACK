@@ -245,13 +245,17 @@ DELIMITER $$
 CREATE TRIGGER `cek_transfer_gudang_insert` BEFORE INSERT ON `transfer_gudang` FOR EACH ROW BEGIN
     IF NEW.id_gudang_asal = NEW.id_gudang_tujuan THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Gudang asal dan tujuan tidak boleh sama!'$$
+        SET MESSAGE_TEXT = 'Gudang asal dan tujuan tidak boleh sama!';
+    END IF;
+END$$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `cek_transfer_gudang_update` BEFORE UPDATE ON `transfer_gudang` FOR EACH ROW BEGIN
     IF NEW.id_gudang_asal = NEW.id_gudang_tujuan THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Gudang asal dan tujuan tidak boleh sama!'$$
+        SET MESSAGE_TEXT = 'Gudang asal dan tujuan tidak boleh sama!';
+    END IF;
+END$$
 DELIMITER ;
 
 --
@@ -545,6 +549,163 @@ ALTER TABLE `transfer_gudang`
   ADD CONSTRAINT `fk_transfer_gudang_asal` FOREIGN KEY (`id_gudang_asal`) REFERENCES `gudang` (`id_gudang`) ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_transfer_gudang_tujuan` FOREIGN KEY (`id_gudang_tujuan`) REFERENCES `gudang` (`id_gudang`) ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_transfer_pengguna` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id_pengguna`) ON UPDATE CASCADE;
+--
+-- Dumping data for table `pengguna`
+--
+
+INSERT INTO `pengguna` (`id_pengguna`, `nama`, `email`, `kata_sandi`, `peran`, `status`, `dibuat_pada`) VALUES
+(1, 'admin', 'admin@inventrack.com', '$2y$10$lXI0Yuuhy9AexEd.TBK19eN2yA3bcBX8NBKnOaY6HaAcon79dkmy.', 'admin', 'aktif', NOW()),
+(2, 'Petugas Gudang', 'petugas@inventrack.com', '$2y$10$1CNn3FhOJNNjkJdKx2xonO6hT3X2w6blRqJy4f5S3QVl2r0AfPfXK', 'petugas', 'aktif', NOW()),
+(3, 'Manager Operasional', 'manager@inventrack.com', '$2y$10$PJfmLBeP9ak16iXaxkftB.T1t3UBRUuyQ5kBkNK7qCYjtb/G4SRb.', 'manager', 'aktif', NOW());
+
+--
+-- Dumping data for table `kategori`
+--
+
+INSERT INTO `kategori` (`id_kategori`, `nama_kategori`, `deskripsi`) VALUES
+(1, 'Elektronik & Gadget', 'Perangkat komputer, laptop, dan aksesoris'),
+(2, 'Sembako & Pangan', 'Bahan makanan pokok dan kebutuhan sembako'),
+(3, 'Alat Tulis Kantor', 'Perlengkapan kantor, kertas, dan alat tulis'),
+(4, 'Perkakas & Jaringan', 'Peralatan teknisi, kabel, dan perkakas instalasi'),
+(5, 'Medis & Sanitasi', 'Perlengkapan sanitasi dan kesehatan');
+
+--
+-- Dumping data for table `satuan`
+--
+
+INSERT INTO `satuan` (`id_satuan`, `nama_satuan`, `singkatan`) VALUES
+(1, 'Pieces', 'pcs'),
+(2, 'Box / Dus', 'box'),
+(3, 'Kilogram', 'kg'),
+(4, 'Liter', 'L'),
+(5, 'Rim', 'rim');
+
+--
+-- Dumping data for table `pemasok`
+--
+
+INSERT INTO `pemasok` (`id_pemasok`, `nama_pemasok`, `nomor_telepon`, `email`, `alamat`) VALUES
+(1, 'PT Sumber Makmur Elektronik', '081234567890', 'sales@sumbermakmur.com', 'Jl. Hayam Wuruk No. 10, Jakarta Barat'),
+(2, 'CV Pangan Nusantara Sejahtera', '081398765432', 'order@pangannusantara.co.id', 'Jl. Kramat Jati No. 45, Jakarta Timur'),
+(3, 'PT Stationery Global Mandiri', '081122334455', 'kontak@stationeryglobal.com', 'Jl. Mangga Dua Raya No. 88, Jakarta Pusat'),
+(4, 'CV Perkakas Jaya Teknik', '081567890123', 'perkakasjaya@yahoo.com', 'Jl. Glodok Jaya No. 15, Jakarta Barat'),
+(5, 'PT Medika Prima Farma', '081890123456', 'info@medikaprima.com', 'Jl. Salemba Raya No. 22, Jakarta Pusat');
+
+--
+-- Dumping data for table `gudang`
+--
+
+INSERT INTO `gudang` (`id_gudang`, `nama_gudang`, `alamat`, `penanggung_jawab`) VALUES
+(1, 'Gudang Utama Jakarta', 'Jl. Daan Mogot No. 64, Jakarta Barat', 'Budi Santoso'),
+(2, 'Gudang Cabang Surabaya', 'Jl. Rungkut Industri No. 12, Surabaya', 'Ahmad Fauzi'),
+(3, 'Gudang Transit Bandung', 'Jl. Soekarno Hatta No. 108, Bandung', 'Dewi Lestari');
+
+--
+-- Dumping data for table `produk`
+--
+
+INSERT INTO `produk` (`id_produk`, `id_kategori`, `id_satuan`, `kode_produk`, `nama_produk`, `deskripsi`, `harga_beli`, `harga_jual`, `stok_minimum`, `foto_produk`, `status`, `dibuat_pada`) VALUES
+(1, 1, 1, 'PRD-001', 'Laptop Asus Vivobook 14', 'Laptop Core i5 RAM 8GB SSD 512GB', 6500000.00, 7800000.00, 3, 'default.png', 'aktif', NOW()),
+(2, 1, 1, 'PRD-002', 'Mouse Wireless Logitech M331', 'Mouse silent click optical sensor', 150000.00, 220000.00, 10, 'default.png', 'aktif', NOW()),
+(3, 2, 1, 'PRD-003', 'Beras Premium Ramos 5kg', 'Beras putih pulen kualitas super 5kg', 68000.00, 76000.00, 20, 'default.png', 'aktif', NOW()),
+(4, 2, 1, 'PRD-004', 'Minyak Goreng Tropical 2 Liter', 'Minyak goreng kelapa sawit botol 2L', 32000.00, 38000.00, 25, 'default.png', 'aktif', NOW()),
+(5, 3, 5, 'PRD-005', 'Kertas HVS A4 PaperOne 80gr', 'Kertas HVS premium ukuran A4 80 gram', 46000.00, 55000.00, 15, 'default.png', 'aktif', NOW()),
+(6, 3, 2, 'PRD-006', 'Pulpen Gel Pilot G2 0.5 (Isi 12)', 'Pulpen gel hitam 0.5mm 1 pack box', 120000.00, 150000.00, 5, 'default.png', 'aktif', NOW()),
+(7, 4, 2, 'PRD-007', 'Kabel LAN UTP Cat6 305m', 'Roll kabel jaringan Cat6 1 roll 305 meter', 850000.00, 1100000.00, 4, 'default.png', 'aktif', NOW()),
+(8, 4, 1, 'PRD-008', 'Tang Crimping RJ45 Proskit', 'Tang press crimping modular plug RJ45/RJ11', 95000.00, 140000.00, 5, 'default.png', 'aktif', NOW()),
+(9, 5, 1, 'PRD-009', 'Hand Sanitizer Antis 500ml', 'Pembersih tangan antiseptik botol pump', 28000.00, 35000.00, 10, 'default.png', 'aktif', NOW()),
+(10, 5, 2, 'PRD-010', 'Masker Medis 3-Ply Earloop', 'Masker bedah 3 lapis standar Kemenkes 1 box isi 50', 20000.00, 30000.00, 10, 'default.png', 'aktif', NOW());
+
+--
+-- Dumping data for table `stok`
+--
+
+INSERT INTO `stok` (`id_stok`, `id_produk`, `id_gudang`, `jumlah_stok`) VALUES
+(1, 1, 1, 2),
+(2, 2, 1, 45),
+(3, 2, 2, 20),
+(4, 3, 1, 80),
+(5, 3, 2, 50),
+(6, 4, 1, 15),
+(7, 5, 1, 60),
+(8, 5, 3, 25),
+(9, 6, 1, 30),
+(10, 7, 1, 8),
+(11, 7, 2, 5),
+(12, 8, 1, 0),
+(13, 9, 1, 40),
+(14, 9, 3, 15),
+(15, 10, 1, 50);
+
+--
+-- Dumping data for table `barang_masuk`
+--
+
+INSERT INTO `barang_masuk` (`id_barang_masuk`, `id_pemasok`, `id_pengguna`, `id_gudang`, `tanggal_masuk`, `catatan`) VALUES
+(1, 1, 1, 1, DATE_SUB(NOW(), INTERVAL 5 DAY), 'Pengadaan Laptop dan Aksesoris'),
+(2, 2, 2, 1, DATE_SUB(NOW(), INTERVAL 3 DAY), 'Pasokan Sembako Mingguan'),
+(3, 3, 1, 1, DATE_SUB(NOW(), INTERVAL 1 DAY), 'Restock Kertas dan ATK Kantor');
+
+--
+-- Dumping data for table `detail_barang_masuk`
+--
+
+INSERT INTO `detail_barang_masuk` (`id_detail_masuk`, `id_barang_masuk`, `id_produk`, `jumlah`, `harga_satuan`) VALUES
+(1, 1, 1, 5, 6500000.00),
+(2, 1, 2, 50, 150000.00),
+(3, 2, 3, 100, 68000.00),
+(4, 2, 4, 40, 32000.00),
+(5, 3, 5, 70, 46000.00),
+(6, 3, 6, 35, 120000.00);
+
+--
+-- Dumping data for table `barang_keluar`
+--
+
+INSERT INTO `barang_keluar` (`id_barang_keluar`, `id_pengguna`, `id_gudang`, `tanggal_keluar`, `nama_penerima`, `tujuan`, `catatan`) VALUES
+(1, 2, 1, DATE_SUB(NOW(), INTERVAL 4 DAY), 'Divisi IT', 'Kantor Pusat Lt. 3', 'Distribusi Laptop & Mouse untuk karyawan baru'),
+(2, 2, 1, DATE_SUB(NOW(), INTERVAL 2 DAY), 'Koperasi Karyawan', 'Gedung Koperasi', 'Penyaluran sembako minyak dan beras');
+
+--
+-- Dumping data for table `detail_barang_keluar`
+--
+
+INSERT INTO `detail_barang_keluar` (`id_detail_keluar`, `id_barang_keluar`, `id_produk`, `jumlah`) VALUES
+(1, 1, 1, 3),
+(2, 1, 2, 5),
+(3, 2, 3, 20),
+(4, 2, 4, 25);
+
+--
+-- Dumping data for table `transfer_gudang`
+--
+
+INSERT INTO `transfer_gudang` (`id_transfer`, `id_gudang_asal`, `id_gudang_tujuan`, `id_pengguna`, `tanggal_transfer`, `status`, `catatan`) VALUES
+(1, 1, 2, 1, DATE_SUB(NOW(), INTERVAL 2 DAY), 'selesai', 'Relokasi stok mouse dan beras ke cabang Surabaya');
+
+--
+-- Dumping data for table `detail_transfer`
+--
+
+INSERT INTO `detail_transfer` (`id_detail_transfer`, `id_transfer`, `id_produk`, `jumlah`) VALUES
+(1, 1, 2, 20),
+(2, 1, 3, 50);
+
+--
+-- Dumping data for table `stok_opname`
+--
+
+INSERT INTO `stok_opname` (`id_opname`, `id_gudang`, `id_pengguna`, `tanggal_opname`, `catatan`) VALUES
+(1, 1, 1, DATE_SUB(NOW(), INTERVAL 1 DAY), 'Audit Fisik Berkala Gudang Utama');
+
+--
+-- Dumping data for table `detail_stok_opname`
+--
+
+INSERT INTO `detail_stok_opname` (`id_detail_opname`, `id_opname`, `id_produk`, `stok_sistem`, `stok_fisik`, `selisih`) VALUES
+(1, 1, 1, 2, 2, 0),
+(2, 1, 5, 62, 60, -2);
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

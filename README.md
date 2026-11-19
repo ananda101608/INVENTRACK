@@ -145,15 +145,18 @@ sudo chmod o+x /home/USER
 
 ## 4. Akun Demo
 
-Data seed menyediakan tiga akun:
+Data seed menyediakan tiga akun demo:
 
-| Email | Peran |
-|---|---|
-| `admin@inventrack.com` | admin |
-| `petugas@inventrack.com` | petugas |
-| `manager@inventrack.com` | manager |
+| Email | Password | Peran |
+|---|---|---|
+| `admin@inventrack.com` | `admin123` | admin |
+| `petugas@inventrack.com` | `petugas123` | petugas |
+| `manager@inventrack.com` | `manager123` | manager |
 
-Password seed tidak terdokumentasi. Jika tidak diketahui, reset manual:
+> **Peringatan:** akun di atas hanya untuk demo/pengembangan. Ganti semua password
+> sebelum aplikasi dipakai di lingkungan nyata.
+
+Jika perlu reset manual:
 
 ```bash
 php -r 'echo password_hash("PasswordBaru123", PASSWORD_BCRYPT), PHP_EOL;'

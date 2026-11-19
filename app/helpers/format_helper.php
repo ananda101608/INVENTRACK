@@ -45,6 +45,23 @@ function tanggal_indonesia(?string $tanggal, bool $cetak_hari = false): string {
 }
 
 /**
+ * Format tanggal + jam (untuk detail transaksi)
+ * Contoh: tanggal_waktu_indonesia("2026-11-17 14:30:00") -> "17 November 2026 · 14:30"
+ */
+function tanggal_waktu_indonesia(?string $tanggal): string {
+    if (!$tanggal || $tanggal === '0000-00-00 00:00:00') {
+        return '-';
+    }
+
+    $time = strtotime($tanggal);
+    if ($time === false) {
+        return '-';
+    }
+
+    return tanggal_indonesia(date('Y-m-d', $time)) . ' · ' . date('H:i', $time);
+}
+
+/**
  * Membersihkan input dari potensi serangan XSS
  */
 function bersihkan(string|null $data): string {

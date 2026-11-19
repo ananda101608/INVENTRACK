@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "inventrack",
+  "version": "1.0.0",
+  "description": "INVENTRACK - Sistem Manajemen Inventaris",
+  "scripts": {
+    "css:build": "tailwindcss -i ./src/input.css -o ./public/assets/css/style.css --minify",
+    "css:watch": "tailwindcss -i ./src/input.css -o ./public/assets/css/style.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4",
+    "tailwindcss": "^4"
+  }
+}

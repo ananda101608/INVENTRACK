@@ -8,7 +8,7 @@ $canManage = in_array($role, ['admin', 'petugas'], true);
 $canDelete = $role === 'admin';
 
 $fotoUrl = static function (string $file): string {
-    if ($file !== '' && is_file(__DIR__ . '/../../uploads/produk/' . $file)) {
+    if ($file !== '' && is_file(__DIR__ . '/../../public/uploads/produk/' . $file)) {
         return ROOT_URL . '/uploads/produk/' . rawurlencode($file);
     }
     return url('assets/images/default.svg');

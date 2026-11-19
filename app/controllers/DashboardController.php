@@ -44,16 +44,16 @@ class DashboardController extends BaseController {
             SELECT DATE_FORMAT(tanggal_masuk, '%d %b') AS label, COUNT(*) AS total
             FROM barang_masuk
             WHERE tanggal_masuk >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
-            GROUP BY DATE(tanggal_masuk)
-            ORDER BY tanggal_masuk ASC
+            GROUP BY DATE(tanggal_masuk), DATE_FORMAT(tanggal_masuk, '%d %b')
+            ORDER BY DATE(tanggal_masuk) ASC
         ")->fetchAll();
 
         $grafikKeluar = $db->query("
             SELECT DATE_FORMAT(tanggal_keluar, '%d %b') AS label, COUNT(*) AS total
             FROM barang_keluar
             WHERE tanggal_keluar >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
-            GROUP BY DATE(tanggal_keluar)
-            ORDER BY tanggal_keluar ASC
+            GROUP BY DATE(tanggal_keluar), DATE_FORMAT(tanggal_keluar, '%d %b')
+            ORDER BY DATE(tanggal_keluar) ASC
         ")->fetchAll();
 
         $this->render('dashboard/index', [

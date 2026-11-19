@@ -4,7 +4,7 @@
 // ====================================================================
 $p = $produk ?? [];
 $existingFoto = (string) ($p['foto_produk'] ?? '');
-$preview = ($existingFoto !== '' && is_file(__DIR__ . '/../../uploads/produk/' . $existingFoto))
+$preview = ($existingFoto !== '' && is_file(__DIR__ . '/../../public/uploads/produk/' . $existingFoto))
     ? ROOT_URL . '/uploads/produk/' . rawurlencode($existingFoto)
     : url('assets/images/default.svg');
 ?>

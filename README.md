@@ -38,9 +38,9 @@ INVENTRACK/
 ├── database/inventrack.sql
 ├── public/
 │   ├── index.php         # front controller
-│   └── assets/           # css, js, images (hasil build ikut di-commit)
+│   ├── assets/           # css, js, images (hasil build ikut di-commit)
+│   └── uploads/produk/   # foto produk
 ├── src/input.css         # sumber Tailwind
-├── uploads/produk/       # foto produk (di luar public/)
 └── views/                # layout, partial, dan halaman
 ```
 
@@ -95,11 +95,11 @@ mysql -u inventrack -p inventrack < database/inventrack.sql
 
 ### 3.4 Permission folder upload (Linux)
 
-Folder `uploads/produk/` harus bisa ditulis oleh user web server:
+Folder `public/uploads/produk/` harus bisa ditulis oleh user web server:
 
 ```bash
-sudo chown -R www-data:www-data uploads
-sudo chmod -R 775 uploads
+sudo chown -R www-data:www-data public/uploads
+sudo chmod -R 775 public/uploads
 ```
 
 Jika tidak, upload foto produk akan gagal.
@@ -139,8 +139,7 @@ sudo chmod o+x /home/USER
 
 > Untuk pengembangan cepat tanpa Apache:
 > `php -S localhost:8080 -t public`
-> Catatan: dengan cara ini foto produk tidak tampil karena folder `uploads/`
-> berada di luar `public/`. Gunakan Apache untuk pengujian upload.
+> Foto produk ikut tampil karena folder `uploads/` berada di dalam `public/`.
 
 ---
 
@@ -177,15 +176,9 @@ WHERE email = 'admin@inventrack.com';
 - Hasil build Tailwind bersifat statis; runtime tidak membutuhkan Node.js.
 - Zona waktu: disarankan `Asia/Jakarta` untuk PHP dan MySQL.
 - `upload_max_filesize`/`post_max_size`: naikkan ke 8–10 MB (Linux default 2 MB).
-- Jika DocumentRoot diarahkan langsung ke `public/`, tambahkan alias agar foto
-  produk tetap dapat diakses:
-
-```apache
-Alias /inventrack/uploads "/var/www/html/inventrack/uploads"
-<Directory "/var/www/html/inventrack/uploads">
-    Require all granted
-</Directory>
-```
+- Karena folder `uploads/produk/` berada di dalam `public/`, foto produk tetap
+  dapat diakses meskipun DocumentRoot diarahkan langsung ke `public/`
+  (tidak perlu alias Apache tambahan).
 
 ---
 

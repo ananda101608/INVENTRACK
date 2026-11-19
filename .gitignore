@@ -3,5 +3,5 @@
 Thumbs.db
 node_modules/
 npm-debug.log*
-/uploads/produk/*
-!/uploads/produk/.gitkeep
+/public/uploads/produk/*
+!/public/uploads/produk/.gitkeep

@@ -179,7 +179,7 @@ class ProdukController extends BaseController {
 
         $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
         $newName = 'prod_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
-        $targetDir = __DIR__ . '/../../uploads/produk/';
+        $targetDir = __DIR__ . '/../../public/uploads/produk/';
 
         if (!is_dir($targetDir)) {
             mkdir($targetDir, 0755, true);

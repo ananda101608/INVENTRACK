@@ -3,8 +3,21 @@
 // HELPER SESSION & NOTIFIKASI FLASH
 // ====================================================================
 
-// Pastikan session sudah aktif
+// Pastikan session sudah aktif dengan konfigurasi cookie yang aman
 if (session_status() === PHP_SESSION_NONE) {
+    $secure = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+
+    ini_set('session.use_strict_mode', '1');
+    ini_set('session.use_only_cookies', '1');
+
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path'     => '/',
+        'httponly' => true,
+        'samesite' => 'Lax',
+        'secure'   => $secure,
+    ]);
+
     session_start();
 }
 

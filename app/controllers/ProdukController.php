@@ -72,6 +72,9 @@ class ProdukController extends BaseController {
         $fotoName = null;
         if (!empty($_FILES['foto_produk']['name'])) {
             $fotoName = $this->handleUploadFoto($_FILES['foto_produk']);
+            if ($fotoName === null) {
+                set_flash('warning', 'Foto produk tidak valid. Gunakan JPG/PNG/WEBP maksimal 2 MB.');
+            }
         }
 
         $data = [
@@ -79,7 +82,7 @@ class ProdukController extends BaseController {
             'id_satuan'    => (int) $_POST['id_satuan'],
             'kode_produk'  => $kode,
             'nama_produk'  => $nama,
-            'deskripsi'    => $_POST['deskripsi'] ?? null,
+            'deskripsi'    => trim($_POST['deskripsi'] ?? ''),
             'harga_beli'   => (float) ($_POST['harga_beli'] ?? 0),
             'harga_jual'   => (float) ($_POST['harga_jual'] ?? 0),
             'stok_minimum' => (int) ($_POST['stok_minimum'] ?? 5),
@@ -139,7 +142,7 @@ class ProdukController extends BaseController {
             'id_satuan'    => (int) $_POST['id_satuan'],
             'kode_produk'  => $kode,
             'nama_produk'  => $nama,
-            'deskripsi'    => $_POST['deskripsi'] ?? null,
+            'deskripsi'    => trim($_POST['deskripsi'] ?? ''),
             'harga_beli'   => (float) ($_POST['harga_beli'] ?? 0),
             'harga_jual'   => (float) ($_POST['harga_jual'] ?? 0),
             'stok_minimum' => (int) ($_POST['stok_minimum'] ?? 5),
@@ -147,7 +150,12 @@ class ProdukController extends BaseController {
         ];
 
         if (!empty($_FILES['foto_produk']['name'])) {
-            $data['foto_produk'] = $this->handleUploadFoto($_FILES['foto_produk']);
+            $fotoBaru = $this->handleUploadFoto($_FILES['foto_produk']);
+            if ($fotoBaru === null) {
+                set_flash('warning', 'Foto produk tidak valid. Gunakan JPG/PNG/WEBP maksimal 2 MB.');
+            } else {
+                $data['foto_produk'] = $fotoBaru;
+            }
         }
 
         $this->produkModel->update($id, $data);
@@ -159,7 +167,12 @@ class ProdukController extends BaseController {
         $this->checkAuth();
         $this->checkRole('admin');
 
-        $id = (int) ($_GET['id'] ?? 0);
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !verify_csrf()) {
+            set_flash('error', 'Permintaan hapus tidak valid.');
+            redirect('index.php?page=produk');
+        }
+
+        $id = (int) ($_POST['id'] ?? $_GET['id'] ?? 0);
         if ($id) {
             try {
                 $this->produkModel->delete($id);
@@ -172,22 +185,44 @@ class ProdukController extends BaseController {
     }
 
     private function handleUploadFoto(array $file): ?string {
-        $allowed = ['image/jpeg', 'image/png', 'image/webp'];
-        if (!in_array($file['type'], $allowed, true)) {
+        if (!isset($file['error']) || $file['error'] !== UPLOAD_ERR_OK) {
             return null;
         }
 
-        $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $newName = 'prod_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
+        if (!is_uploaded_file($file['tmp_name'])) {
+            return null;
+        }
+
+        $maxSize = 2 * 1024 * 1024;
+        if (($file['size'] ?? 0) <= 0 || $file['size'] > $maxSize) {
+            return null;
+        }
+
+        $mimeMap = [
+            'image/jpeg' => 'jpg',
+            'image/png'  => 'png',
+            'image/webp' => 'webp'
+        ];
+
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mime  = $finfo->file($file['tmp_name']);
+
+        if (!isset($mimeMap[$mime])) {
+            return null;
+        }
+
+        if (@getimagesize($file['tmp_name']) === false) {
+            return null;
+        }
+
+        $ext       = $mimeMap[$mime];
+        $newName   = 'prod_' . time() . '_' . bin2hex(random_bytes(8)) . '.' . $ext;
         $targetDir = __DIR__ . '/../../public/uploads/produk/';
 
-        if (!is_dir($targetDir)) {
-            mkdir($targetDir, 0755, true);
+        if (!is_dir($targetDir) && !mkdir($targetDir, 0755, true) && !is_dir($targetDir)) {
+            return null;
         }
 
-        if (move_uploaded_file($file['tmp_name'], $targetDir . $newName)) {
-            return $newName;
-        }
-        return null;
+        return move_uploaded_file($file['tmp_name'], $targetDir . $newName) ? $newName : null;
     }
 }

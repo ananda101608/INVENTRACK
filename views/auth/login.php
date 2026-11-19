@@ -143,7 +143,7 @@ $flash = get_flash();
     </section>
 </div>
 
-<script>
+<script nonce="<?= csp_nonce() ?>">
     document.querySelector('[data-toggle-password]')?.addEventListener('click', function () {
         const input = document.getElementById('kata_sandi');
         input.type = input.type === 'password' ? 'text' : 'password';

@@ -1,0 +1,19 @@
+# Perlindungan tambahan bila document root tidak diarahkan ke public/.
+# Konfigurasi yang disarankan tetap: DocumentRoot -> folder public/
+# (lihat README bagian instalasi).
+
+<IfModule mod_authz_core.c>
+    <FilesMatch "(^\.env|^\.git|^\.gitignore|^\.gitattributes|composer\.(json|lock)$)">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+
+<IfModule !mod_authz_core.c>
+    <FilesMatch "(^\.env|^\.git|^\.gitignore|^\.gitattributes|composer\.(json|lock)$)">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</IfModule>
+
+# Jangan pernah menyajikan folder internal lewat HTTP.
+RedirectMatch 404 ^/(.*/)?(app|config|database|src|views|node_modules)(/|$)

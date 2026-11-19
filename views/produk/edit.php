@@ -5,7 +5,7 @@
 $p = $produk ?? [];
 $existingFoto = (string) ($p['foto_produk'] ?? '');
 $preview = ($existingFoto !== '' && is_file(__DIR__ . '/../../public/uploads/produk/' . $existingFoto))
-    ? ROOT_URL . '/uploads/produk/' . rawurlencode($existingFoto)
+    ? url('uploads/produk/' . rawurlencode($existingFoto))
     : url('assets/images/default.svg');
 ?>
 <div class="mx-auto max-w-4xl space-y-5">
@@ -116,7 +116,7 @@ $preview = ($existingFoto !== '' && is_file(__DIR__ . '/../../public/uploads/pro
     </form>
 </div>
 
-<script>
+<script nonce="<?= csp_nonce() ?>">
     document.getElementById('foto')?.addEventListener('change', function (e) {
         const file = e.target.files?.[0];
         if (!file) return;

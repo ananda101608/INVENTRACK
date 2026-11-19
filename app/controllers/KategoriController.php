@@ -70,7 +70,12 @@ class KategoriController extends BaseController {
         $this->checkAuth();
         $this->checkRole('admin');
 
-        $id = (int) ($_GET['id'] ?? 0);
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !verify_csrf()) {
+            set_flash('error', 'Permintaan hapus tidak valid.');
+            redirect('index.php?page=kategori');
+        }
+
+        $id = (int) ($_POST['id'] ?? $_GET['id'] ?? 0);
         if ($id) {
             try {
                 $this->kategoriModel->delete($id);

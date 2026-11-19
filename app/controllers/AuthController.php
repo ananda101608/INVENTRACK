@@ -37,8 +37,14 @@ class AuthController extends BaseController {
             redirect('index.php?page=login');
         }
 
+        if (login_terkunci()) {
+            set_flash('error', 'Terlalu banyak percobaan login. Silakan coba lagi dalam 5 menit.');
+            redirect('index.php?page=login');
+        }
+
         $user = $this->penggunaModel->getByEmail($email);
         if (!$user || !cek_password($password, $user['kata_sandi'])) {
+            catat_login_gagal();
             set_flash('error', 'Email atau kata sandi salah.');
             redirect('index.php?page=login');
         }
@@ -47,6 +53,9 @@ class AuthController extends BaseController {
             set_flash('error', 'Akun dinonaktifkan. Hubungi admin.');
             redirect('index.php?page=login');
         }
+
+        reset_login_gagal();
+        session_regenerate_id(true);
 
         $_SESSION['pengguna'] = [
             'id_pengguna' => $user['id_pengguna'],

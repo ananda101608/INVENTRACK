@@ -372,6 +372,15 @@
     });
   }
 
+  /* ---------------------------------------------------------------
+     Tombol cetak
+     --------------------------------------------------------------- */
+  function initPrint() {
+    $$('[data-print]').forEach((button) => {
+      button.addEventListener('click', () => window.print());
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     initSidebar();
     initDropdown();
@@ -382,5 +391,6 @@
     initRepeaters();
     initOpname();
     initForms();
+    initPrint();
   });
 })();

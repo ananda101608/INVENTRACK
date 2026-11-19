@@ -108,17 +108,23 @@ $roleTone = static function (string $peran): string {
                                     <?= ui_icon('edit', 'w-3.5 h-3.5') ?>
                                 </button>
                                 <?php if (!$isMe): ?>
-                                    <a href="index.php?page=pengguna&action=toggle_status&id=<?= (int) $row['id_pengguna'] ?>"
-                                       class="btn btn-ghost btn-sm <?= $row['status'] === 'aktif' ? 'text-amber-600 hover:bg-amber-50' : 'text-emerald-600 hover:bg-emerald-50' ?>"
-                                       title="<?= $row['status'] === 'aktif' ? 'Nonaktifkan' : 'Aktifkan' ?>"
-                                       data-confirm="<?= $row['status'] === 'aktif' ? 'Nonaktifkan' : 'Aktifkan' ?> akun '<?= htmlspecialchars($row['nama'], ENT_QUOTES) ?>'?">
-                                        <?= ui_icon($row['status'] === 'aktif' ? 'close' : 'check', 'w-3.5 h-3.5') ?>
-                                    </a>
-                                    <a href="index.php?page=pengguna&action=hapus&id=<?= (int) $row['id_pengguna'] ?>"
-                                       class="btn btn-ghost btn-sm text-rose-600 hover:bg-rose-50" title="Hapus"
-                                       data-confirm="Hapus akun '<?= htmlspecialchars($row['nama'], ENT_QUOTES) ?>' secara permanen?">
-                                        <?= ui_icon('trash', 'w-3.5 h-3.5') ?>
-                                    </a>
+                                    <form method="post" action="index.php?page=pengguna&action=toggle_status&id=<?= (int) $row['id_pengguna'] ?>" class="inline">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" name="id" value="<?= (int) $row['id_pengguna'] ?>">
+                                        <button type="submit" class="btn btn-ghost btn-sm <?= $row['status'] === 'aktif' ? 'text-amber-600 hover:bg-amber-50' : 'text-emerald-600 hover:bg-emerald-50' ?>"
+                                                title="<?= $row['status'] === 'aktif' ? 'Nonaktifkan' : 'Aktifkan' ?>"
+                                                data-confirm="<?= $row['status'] === 'aktif' ? 'Nonaktifkan' : 'Aktifkan' ?> akun '<?= htmlspecialchars($row['nama'], ENT_QUOTES) ?>'?">
+                                            <?= ui_icon($row['status'] === 'aktif' ? 'close' : 'check', 'w-3.5 h-3.5') ?>
+                                        </button>
+                                    </form>
+                                    <form method="post" action="index.php?page=pengguna&action=hapus&id=<?= (int) $row['id_pengguna'] ?>" class="inline">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" name="id" value="<?= (int) $row['id_pengguna'] ?>">
+                                        <button type="submit" class="btn btn-ghost btn-sm text-rose-600 hover:bg-rose-50" title="Hapus"
+                                                data-confirm="Hapus akun '<?= htmlspecialchars($row['nama'], ENT_QUOTES) ?>' secara permanen?">
+                                            <?= ui_icon('trash', 'w-3.5 h-3.5') ?>
+                                        </button>
+                                    </form>
                                 <?php endif; ?>
                             </div>
                         </td>

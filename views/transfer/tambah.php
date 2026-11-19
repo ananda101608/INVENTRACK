@@ -123,7 +123,7 @@ $rowTemplate = static function () use ($produkList): string {
     </form>
 </div>
 
-<script>
+<script nonce="<?= csp_nonce() ?>">
     (function () {
         const form = document.querySelector('[data-transfer-form]');
         if (!form) return;

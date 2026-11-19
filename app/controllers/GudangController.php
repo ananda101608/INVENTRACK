@@ -89,7 +89,12 @@ class GudangController extends BaseController {
         $this->checkAuth();
         $this->checkRole('admin');
 
-        $id = (int) ($_GET['id'] ?? 0);
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !verify_csrf()) {
+            set_flash('error', 'Permintaan hapus tidak valid.');
+            redirect('index.php?page=gudang');
+        }
+
+        $id = (int) ($_POST['id'] ?? $_GET['id'] ?? 0);
         if ($id) {
             try {
                 $this->gudangModel->delete($id);

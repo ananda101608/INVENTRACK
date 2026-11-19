@@ -42,6 +42,52 @@ function require_role(string|array $peran_diizinkan): void {
 }
 
 /**
+ * Cek apakah akun sedang dibatasi karena terlalu banyak percobaan login.
+ * Maksimal 5 kegagalan dalam 5 menit.
+ */
+function login_terkunci(int $maks = 5, int $jendela = 300): bool {
+    $state = $_SESSION['login_attempts'] ?? null;
+    if (!is_array($state) || empty($state['first'])) {
+        return false;
+    }
+
+    if (time() - (int) $state['first'] > $jendela) {
+        unset($_SESSION['login_attempts']);
+        return false;
+    }
+
+    return (int) ($state['count'] ?? 0) >= $maks;
+}
+
+/**
+ * Catat satu percobaan login yang gagal.
+ */
+function catat_login_gagal(): void {
+    $state = $_SESSION['login_attempts'] ?? ['count' => 0, 'first' => time()];
+
+    if (empty($state['first']) || time() - (int) $state['first'] > 300) {
+        $state = ['count' => 0, 'first' => time()];
+    }
+
+    $state['count'] = (int) ($state['count'] ?? 0) + 1;
+    $_SESSION['login_attempts'] = $state;
+}
+
+/**
+ * Hapus catatan percobaan login setelah berhasil.
+ */
+function reset_login_gagal(): void {
+    unset($_SESSION['login_attempts']);
+}
+
+/**
+ * Kebijakan panjang kata sandi minimal.
+ */
+function password_memenuhi_kebijakan(string $password): bool {
+    return strlen($password) >= 8;
+}
+
+/**
  * Enkripsi kata sandi secara aman
  */
 function enkripsi_password(string $password): string {

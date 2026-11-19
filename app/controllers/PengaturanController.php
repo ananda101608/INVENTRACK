@@ -36,6 +36,11 @@ class PengaturanController extends BaseController {
             redirect('index.php?page=pengaturan');
         }
 
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            set_flash('warning', 'Format email tidak valid.');
+            redirect('index.php?page=pengaturan');
+        }
+
         $existing = $this->penggunaModel->getByEmail($email);
         if ($existing && (int) $existing['id_pengguna'] !== $id) {
             set_flash('error', "Email '{$email}' sudah digunakan pengguna lain.");
@@ -77,6 +82,11 @@ class PengaturanController extends BaseController {
 
         if ($passBaru !== $passKonf) {
             set_flash('error', 'Konfirmasi kata sandi baru tidak cocok.');
+            redirect('index.php?page=pengaturan');
+        }
+
+        if (!password_memenuhi_kebijakan($passBaru)) {
+            set_flash('warning', 'Kata sandi baru minimal 8 karakter.');
             redirect('index.php?page=pengaturan');
         }
 

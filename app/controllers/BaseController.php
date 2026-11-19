@@ -3,6 +3,8 @@
 abstract class BaseController {
 
     protected function render(string $viewPath, array $data = []): void {
+        kirim_header_keamanan();
+
         extract($data);
         $fullPath = __DIR__ . "/../../views/{$viewPath}.php";
 

@@ -20,8 +20,9 @@ class ProdukModel {
         $params = [];
 
         if ($keyword) {
-            $sql .= " AND (p.nama_produk LIKE :kw OR p.kode_produk LIKE :kw)";
-            $params[':kw'] = "%{$keyword}%";
+            $sql .= " AND (p.nama_produk LIKE :kw_nama OR p.kode_produk LIKE :kw_kode)";
+            $params[':kw_nama'] = "%{$keyword}%";
+            $params[':kw_kode'] = "%{$keyword}%";
         }
 
         if ($kategoriId) {
@@ -85,7 +86,7 @@ class ProdukModel {
             ':satuan'    => $data['id_satuan'],
             ':kode'      => $data['kode_produk'],
             ':nama'      => $data['nama_produk'],
-            ':deskripsi' => $data['deskripsi'] ?? null,
+            ':deskripsi' => $data['deskripsi'] ?? '',
             ':beli'      => $data['harga_beli'] ?? 0,
             ':jual'      => $data['harga_jual'] ?? 0,
             ':min'       => $data['stok_minimum'] ?? 5,
@@ -113,7 +114,7 @@ class ProdukModel {
             ':satuan'    => $data['id_satuan'],
             ':kode'      => $data['kode_produk'],
             ':nama'      => $data['nama_produk'],
-            ':deskripsi' => $data['deskripsi'] ?? null,
+            ':deskripsi' => $data['deskripsi'] ?? '',
             ':beli'      => $data['harga_beli'] ?? 0,
             ':jual'      => $data['harga_jual'] ?? 0,
             ':min'       => $data['stok_minimum'] ?? 5,

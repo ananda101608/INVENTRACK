@@ -16,7 +16,7 @@ transaksi stok, transfer antar gudang, stok opname, laporan, dan pengaturan akun
 | PHP | >= 8.0 (disarankan 8.2+) dengan ekstensi `pdo_mysql`, `fileinfo`, `mbstring` |
 | MySQL / MariaDB | MySQL 8 atau MariaDB 10.4+ |
 | Node.js + npm | hanya untuk build ulang CSS (opsional saat runtime) |
-| Web server | Apache (XAMPP/Laragon di Windows, LAMP di Linux) |
+| Web server | Apache / Nginx + PHP-FPM / `php -S` (DocumentRoot ke `public/`) |
 
 Hasil build CSS (`public/assets/css/style.css`) sudah ikut di-commit, sehingga
 aplikasi bisa langsung dijalankan tanpa Node.js.
@@ -116,30 +116,53 @@ npm run css:watch     # saat pengembangan
 
 ### 3.6 Jalankan aplikasi
 
-Letakkan project di document root web server, misalnya:
+**DocumentRoot harus diarahkan ke folder `public/`**, bukan ke root project.
+Dengan begitu `.env`, `database/`, `app/`, dan `config/` tidak dapat diunduh
+lewat HTTP.
 
-- **Linux (Apache):** `/var/www/html/inventrack`
-- **Windows (XAMPP):** `C:\xampp\htdocs\inventrack`
-
-Lalu buka:
-
-```
-http://localhost/inventrack/
-```
-
-`index.php` di root project akan mengarahkan ke `public/index.php`.
-
-Jika project tetap berada di direktori home (Linux), buat symlink ke document root
-dan pastikan user web server bisa menembus direktori home:
+**Opsi A — server bawaan PHP (paling cepat):**
 
 ```bash
-sudo ln -s /home/USER/INVENTRACK /var/www/html/inventrack
+cd INVENTRACK
+php -S localhost:8080 -t public
+```
+
+Buka `http://localhost:8080/`.
+
+**Opsi B — Apache virtual host (Linux):**
+
+```apache
+<VirtualHost *:80>
+    ServerName inventrack.local
+    DocumentRoot /home/USER/INVENTRACK/public
+
+    <Directory /home/USER/INVENTRACK/public>
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>
+```
+
+Aktifkan dengan `sudo a2ensite`, tambahkan `inventrack.local` ke `/etc/hosts`,
+lalu `sudo systemctl reload apache2`.
+
+**Opsi C — XAMPP/Laragon (Windows):**
+
+Buat virtual host yang menunjuk ke `C:\xampp\htdocs\INVENTRACK\public`
+(atau gunakan Alias). Jangan mengakses `http://localhost/inventrack/` secara
+langsung dari root project, karena `.env` dapat diunduh.
+
+Alternatif subfolder (misalnya `http://localhost/inventrack/`): symlink/alias
+**hanya** folder `public`, bukan seluruh project.
+
+```bash
+sudo ln -s /home/USER/INVENTRACK/public /var/www/html/inventrack
 sudo chmod o+x /home/USER
 ```
 
-> Untuk pengembangan cepat tanpa Apache:
-> `php -S localhost:8080 -t public`
-> Foto produk ikut tampil karena folder `uploads/` berada di dalam `public/`.
+> `.htaccess` di root project menyediakan lapisan tambahan untuk menolak `.env`
+> dan folder internal, tetapi hanya aktif jika `AllowOverride` diizinkan.
+> Mengarahkan DocumentRoot ke `public/` tetap merupakan cara utama yang aman.
 
 ---
 
@@ -175,7 +198,7 @@ WHERE email = 'admin@inventrack.com';
 - Semua path PHP memakai `__DIR__`, tidak ada path absolut.
 - Nama file konsisten; aman untuk filesystem case-sensitive Linux.
 - `.gitattributes` menormalkan akhir baris ke LF.
-- Tidak memakai Composer atau ekstensi di luar PDO MySQL.
+- Tidak memakai Composer atau ekstensi di luar PDO MySQL dan `fileinfo`.
 - Hasil build Tailwind bersifat statis; runtime tidak membutuhkan Node.js.
 - Zona waktu: disarankan `Asia/Jakarta` untuk PHP dan MySQL.
 - `upload_max_filesize`/`post_max_size`: naikkan ke 8–10 MB (Linux default 2 MB).
@@ -199,3 +222,30 @@ Komponen Tailwind kustom (`.btn`, `.card`, `.input`, `.badge`, `.table-modern`,
 Interaksi JavaScript global ada di `public/assets/js/main.js`:
 sidebar, dropdown, toast, modal `<dialog>`, konfirmasi hapus, pencarian tabel,
 repeater item transaksi, dan perhitungan stok opname.
+
+---
+
+## 7. Catatan Keamanan
+
+- **DocumentRoot = `public/`.** Jangan menaruh root project langsung di `htdocs`
+  atau document root, karena `.env` berisi kredensial database.
+- **`.env` tidak di-commit.** Gunakan `.env.example` sebagai template dan isi
+  password sendiri.
+- **Akun demo wajib diganti** sebelum dipakai di lingkungan nyata.
+- **Upload foto** divalidasi dari isi file (`finfo` + `getimagesize`), ekstensi
+  ditentukan server (JPG/PNG/WEBP, maks. 2 MB), dan folder upload dilindungi
+  `.htaccess` agar tidak mengeksekusi skrip.
+- **CSRF** diterapkan pada semua form POST, termasuk hapus dan ubah status.
+  Aksi destruktif tidak lagi memakai GET.
+- **Sesi:** cookie `HttpOnly` + `SameSite=Lax` (+ `Secure` saat HTTPS),
+  `session_regenerate_id()` setelah login, dan batas 5 percobaan login gagal
+  per 5 menit.
+- **Kata sandi** minimal 8 karakter; hash memakai BCRYPT.
+- **Security header** (CSP dengan nonce, `X-Frame-Options`,
+  `X-Content-Type-Options`, `Referrer-Policy`) dikirim untuk halaman HTML.
+- **Error database** dicatat ke log server; pengguna hanya melihat pesan umum.
+- Untuk produksi: aktifkan HTTPS, batasi percobaan login per-IP di web server,
+  gunakan user MySQL dengan hak minimum, dan lakukan backup rutin.
+
+> Batas percobaan login berbasis sesi dapat diakali dengan menghapus cookie.
+> Pembatasan per-IP di level web server tetap disarankan untuk produksi.

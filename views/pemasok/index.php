@@ -86,11 +86,14 @@ $rows      = $daftar_pemasok ?? [];
                                     </button>
                                 <?php endif; ?>
                                 <?php if ($canDelete): ?>
-                                    <a href="index.php?page=pemasok&action=hapus&id=<?= (int) $row['id_pemasok'] ?>"
-                                       class="btn btn-ghost btn-sm text-rose-600 hover:bg-rose-50" title="Hapus"
-                                       data-confirm="Hapus pemasok '<?= htmlspecialchars($row['nama_pemasok'], ENT_QUOTES) ?>'?">
-                                        <?= ui_icon('trash', 'w-3.5 h-3.5') ?>
-                                    </a>
+                                    <form method="post" action="index.php?page=pemasok&action=hapus&id=<?= (int) $row['id_pemasok'] ?>" class="inline">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" name="id" value="<?= (int) $row['id_pemasok'] ?>">
+                                        <button type="submit" class="btn btn-ghost btn-sm text-rose-600 hover:bg-rose-50" title="Hapus"
+                                                data-confirm="Hapus pemasok '<?= htmlspecialchars($row['nama_pemasok'], ENT_QUOTES) ?>'?">
+                                            <?= ui_icon('trash', 'w-3.5 h-3.5') ?>
+                                        </button>
+                                    </form>
                                 <?php endif; ?>
                             </div>
                         </td>

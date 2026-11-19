@@ -38,6 +38,16 @@ class PenggunaController extends BaseController {
             redirect('index.php?page=pengguna');
         }
 
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            set_flash('warning', 'Format email tidak valid.');
+            redirect('index.php?page=pengguna');
+        }
+
+        if (!password_memenuhi_kebijakan($password)) {
+            set_flash('warning', 'Kata sandi minimal 8 karakter.');
+            redirect('index.php?page=pengguna');
+        }
+
         // Cek email ganda
         if ($this->penggunaModel->getByEmail($email)) {
             set_flash('error', "Email '{$email}' sudah terdaftar dalam sistem.");
@@ -70,6 +80,16 @@ class PenggunaController extends BaseController {
         $email = trim($_POST['email'] ?? '');
         $peran = $_POST['peran'] ?? 'petugas';
 
+        if (empty($nama) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            set_flash('warning', 'Nama dan alamat email yang valid wajib diisi.');
+            redirect('index.php?page=pengguna');
+        }
+
+        if (!empty($_POST['kata_sandi']) && !password_memenuhi_kebijakan((string) $_POST['kata_sandi'])) {
+            set_flash('warning', 'Kata sandi minimal 8 karakter.');
+            redirect('index.php?page=pengguna');
+        }
+
         $existing = $this->penggunaModel->getByEmail($email);
         if ($existing && (int) $existing['id_pengguna'] !== $id) {
             set_flash('error', "Email '{$email}' sudah digunakan oleh pengguna lain.");
@@ -96,7 +116,12 @@ class PenggunaController extends BaseController {
         $this->checkAuth();
         $this->checkRole('admin');
 
-        $id = (int) ($_GET['id'] ?? 0);
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !verify_csrf()) {
+            set_flash('error', 'Permintaan tidak valid.');
+            redirect('index.php?page=pengguna');
+        }
+
+        $id = (int) ($_POST['id'] ?? $_GET['id'] ?? 0);
         if ($id === (int) $_SESSION['pengguna']['id_pengguna']) {
             set_flash('warning', 'Anda tidak dapat menonaktifkan akun sendiri.');
             redirect('index.php?page=pengguna');
@@ -113,7 +138,12 @@ class PenggunaController extends BaseController {
         $this->checkAuth();
         $this->checkRole('admin');
 
-        $id = (int) ($_GET['id'] ?? 0);
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !verify_csrf()) {
+            set_flash('error', 'Permintaan hapus tidak valid.');
+            redirect('index.php?page=pengguna');
+        }
+
+        $id = (int) ($_POST['id'] ?? $_GET['id'] ?? 0);
         if ($id === (int) $_SESSION['pengguna']['id_pengguna']) {
             set_flash('warning', 'Anda tidak dapat menghapus akun Anda sendiri.');
             redirect('index.php?page=pengguna');

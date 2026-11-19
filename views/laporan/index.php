@@ -50,7 +50,7 @@ foreach ($rows as $r) {
             <h2 class="text-xl font-bold text-slate-900">Laporan Inventaris</h2>
             <p class="mt-1 text-sm text-slate-500">Rekap data produk, stok, dan transaksi sesuai filter.</p>
         </div>
-        <button type="button" class="btn btn-ghost btn-sm" onclick="window.print()">
+        <button type="button" class="btn btn-ghost btn-sm" data-print>
             <?= ui_icon('print', 'w-4 h-4') ?> Cetak
         </button>
     </div>

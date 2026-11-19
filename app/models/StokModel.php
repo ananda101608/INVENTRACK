@@ -22,12 +22,13 @@ class StokModel {
         $stmt = $this->db->prepare("
             INSERT INTO stok (id_produk, id_gudang, jumlah_stok)
             VALUES (:produk, :gudang, :jumlah)
-            ON DUPLICATE KEY UPDATE jumlah_stok = jumlah_stok + :jumlah
+            ON DUPLICATE KEY UPDATE jumlah_stok = jumlah_stok + :jumlah_dup
         ");
         return $stmt->execute([
-            ':produk' => $idProduk,
-            ':gudang' => $idGudang,
-            ':jumlah' => $jumlah
+            ':produk'     => $idProduk,
+            ':gudang'     => $idGudang,
+            ':jumlah'     => $jumlah,
+            ':jumlah_dup' => $jumlah
         ]);
     }
 
@@ -61,12 +62,13 @@ class StokModel {
         $stmt = $this->db->prepare("
             INSERT INTO stok (id_produk, id_gudang, jumlah_stok)
             VALUES (:produk, :gudang, :jumlah)
-            ON DUPLICATE KEY UPDATE jumlah_stok = :jumlah
+            ON DUPLICATE KEY UPDATE jumlah_stok = :jumlah_dup
         ");
         return $stmt->execute([
-            ':produk' => $idProduk,
-            ':gudang' => $idGudang,
-            ':jumlah' => $stokFisik
+            ':produk'     => $idProduk,
+            ':gudang'     => $idGudang,
+            ':jumlah'     => $stokFisik,
+            ':jumlah_dup' => $stokFisik
         ]);
     }
 

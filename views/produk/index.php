@@ -9,7 +9,7 @@ $canDelete = $role === 'admin';
 
 $fotoUrl = static function (string $file): string {
     if ($file !== '' && is_file(__DIR__ . '/../../public/uploads/produk/' . $file)) {
-        return ROOT_URL . '/uploads/produk/' . rawurlencode($file);
+        return url('uploads/produk/' . rawurlencode($file));
     }
     return url('assets/images/default.svg');
 };
@@ -104,11 +104,14 @@ $fotoUrl = static function (string $file): string {
                                        class="btn btn-ghost btn-sm" title="Edit"><?= ui_icon('edit', 'w-3.5 h-3.5') ?></a>
                                 <?php endif; ?>
                                 <?php if ($canDelete): ?>
-                                    <a href="index.php?page=produk&action=hapus&id=<?= (int) $row['id_produk'] ?>"
-                                       class="btn btn-ghost btn-sm text-rose-600 hover:bg-rose-50" title="Hapus"
-                                       data-confirm="Hapus produk '<?= htmlspecialchars($row['nama_produk'], ENT_QUOTES) ?>'?">
-                                        <?= ui_icon('trash', 'w-3.5 h-3.5') ?>
-                                    </a>
+                                    <form method="post" action="index.php?page=produk&action=hapus&id=<?= (int) $row['id_produk'] ?>" class="inline">
+                                        <?= csrf_field() ?>
+                                        <input type="hidden" name="id" value="<?= (int) $row['id_produk'] ?>">
+                                        <button type="submit" class="btn btn-ghost btn-sm text-rose-600 hover:bg-rose-50" title="Hapus"
+                                                data-confirm="Hapus produk '<?= htmlspecialchars($row['nama_produk'], ENT_QUOTES) ?>'?">
+                                            <?= ui_icon('trash', 'w-3.5 h-3.5') ?>
+                                        </button>
+                                    </form>
                                 <?php endif; ?>
                             </div>
                         </td>

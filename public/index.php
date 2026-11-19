@@ -6,6 +6,7 @@ require_once __DIR__ . '/../app/helpers/session_helper.php';
 require_once __DIR__ . '/../app/helpers/format_helper.php';
 require_once __DIR__ . '/../app/helpers/csrf_helper.php';
 require_once __DIR__ . '/../app/helpers/auth_helper.php';
+require_once __DIR__ . '/../app/helpers/security_helper.php';
 
 $page   = $_GET['page'] ?? 'dashboard';
 $action = $_GET['action'] ?? 'index';
